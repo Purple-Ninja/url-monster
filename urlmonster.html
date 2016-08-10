@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Monster</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style>#mtitle{font-weight:bold;font-size:26px}#footer{border-top:thin solid;margin-top:20px;font-size:12px;color:#444;padding:5px 0 5px 0}#footer a{color:#444;text-decoration:none}.cboth{clear:both}.wrapper{padding:10px}.url{display:block;width:97%;margin-bottom:5px;background-color:#f5f6ce}.u2{background-color:#afd}#parsed .compt{margin:5px;padding:5px;border:thin solid;float:left;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;width:300px;overflow:hidden;text-overflow:ellipsis;background-color:#DDD}#parsed .compt.diff{background-color:#f99}#parsed .compt .fd{display:block;color:blue}#parsed .compt .fd .name{font-weight:bold}#parsed .compt .fd .meta{color:#666;font-style:italic;margin-left:5px;font-size:80%}.hidden{display:none}#msgs .msg{background-color:#9cf;padding:5px;width:97%;padding-bottom:10px;margin-top:10px;margin-bottom:10px}#msgs .msg h3{margin-top:5px;margin-bottom:5px}#msgs .msg .same{color:green}#msgs .msg .diff{color:red}#msgs .msg .act{margin-top:10px;margin-bottom:5px}.cab{padding:3px;border:1px solid;cursor:pointer}.cab.ckd{background-color:#000;color:#fff}.cabs{padding-right:5px;cursor:pointer;color:blue;text-decoration:underline}.urlui{margin-bottom:5px}.urlui>.actions{position:relative;top:-5px}</style>
+    </head>
+<body>
+
+<h1 id="mtitle">URL Monster</h1>
+
+<div id="wrapper">
+    <div>
+                <div class="urlui">
+            <div class="box">
+                <input id="u1" type="text" class="url u1" placeholder="Input URL 1" />
+            </div>
+            <div class="actions" data-uid="1">
+                <a class="cabs act-go-cr">Go (current)</a>
+                <a class="cabs act-go-new">Go (new)</a>
+                                <a class="cabs act-clear">Clear</a>
+            </div>
+        </div>
+                <div class="urlui">
+            <div class="box">
+                <input id="u2" type="text" class="url u2" placeholder="Input URL 2" />
+            </div>
+            <div class="actions" data-uid="2">
+                <a class="cabs act-go-cr">Go (current)</a>
+                <a class="cabs act-go-new">Go (new)</a>
+                                <a class="cabs act-clear">Clear</a>
+            </div>
+        </div>
+            </div>
+    <div id="msgs">
+        <div class="msg hidden cmp">
+            <h3>Comparison Mode</h3>
+            <div>
+                The two URLs are 
+                <span class="same hidden">THE SAME</span>
+                <span class="diff">DIFFERENT</span>
+                .
+            </div>
+            <div class="act">
+                <a id="show-d" class="cab ckd">Show Differences</a>
+                <a id="show-s" class="cab">Show Similarities</a>
+                <a id="show-a" class="cab">Show All</a>
+            </div>
+        </div>
+    </div>
+    <div id="parsed">
+    </div>
+    <div class="cboth"></div>
+</div>
+
+<div id="footer">
+URL Monster 1.0 &copy;  <a href="http://gadget.chienwen.net/">Handy Gadgets</a>
+| 
+<a href="http://medialize.github.io/URI.js/">URI.js</a> 
+|
+<a href="http://jquery.com/">jQuery</a>
+</div>
+
+</body>
+</html>
+<script src="scripts/jquery-1.10.2.min.js"></script>
+<script src="scripts/URI.js"></script>
+<script src="scripts/url_5d9bc5410c6bb9daa9457e066876287e.js"></script>
+<!-- Chienwen Builder 1.22 - 2013-10-23 17:21:03 UTC - dm0wMyAzLjIuMC00NC1nZW5lcmljIHg4Nl82NCBHTlUvTGludXg= -->
