@@ -11,8 +11,16 @@ class CompareBox extends Component {
       updateField
     } = this.props;
 
+    let isEqual = false;
+
+    if (isQuery){
+      isEqual = parsedUrls[0].query[field] === parsedUrls[1].query[field];
+    } else {
+      isEqual = parsedUrls[0][field] === parsedUrls[1][field];
+    }
+
     const boxClass = classnames('compt', {
-      diff: diffing
+      diff: diffing && !isEqual
     });
 
     return (

@@ -17,7 +17,7 @@ import './App.css';
 class App extends Component {
   state = {
     urls: [],
-    filter: 'all' // diff|same|all
+    filter: 'diff' // diff|same|all
   };
 
   // handlers
