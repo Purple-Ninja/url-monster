@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import url from 'url';
+import URL from 'url';
 
 import UrlBox from './components/UrlBox';
 import Messages from './components/Messages';
@@ -27,10 +27,7 @@ class App extends Component {
     this.setState({
       urls: [
         ...urls.slice(0, index),
-        {
-          raw: e.target.value,
-          parsed: url.parse(e.target.value, true)
-        },
+        e.target.value,
         ...urls.slice(index + 1)
       ]
     });
@@ -55,7 +52,7 @@ class App extends Component {
   // helpers
   compareUrls(urls) {
     const fields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
-    const processedUrls = urls.map(url => _pick(url.parsed, fields));
+    const processedUrls = urls.map(url => _pick(URL.parse(url, true), fields));
 
     const diffFields = this.getDiffFields(...processedUrls, true);
     const queryDiffFields = this.getDiffFields(...processedUrls.map(url => url.query), true);
@@ -79,19 +76,10 @@ class App extends Component {
 
   // life cycle methods
   componentDidMount() {
-    const a = 'https://tw.yahoo.com/asdff?a=a&b=b';
-    const b = 'https://tw.yahoo.com/asdff?b=b&a=a';
-
     this.setState({
       urls: [
-        {
-          raw: a,
-          parsed: url.parse(a, true)
-        },
-        {
-          raw: b,
-          parsed: url.parse(b, true)
-        }
+        'https://tw.yahoo.com/asdff?a=a&b=b',
+        'http://user:pass@host.com:8080/p/a/t/h?query=string'
       ]
     });
   }
@@ -104,6 +92,8 @@ class App extends Component {
       diffFields,
       queryDiffFields
     } = this.compareUrls(urls);
+
+    const parsedUrls = urls.map(url => URL.parse(url, true));
 
     const messageProps = {
       isSame,
@@ -119,7 +109,7 @@ class App extends Component {
           const urlBoxProps = {
             key: index,
             index,
-            href: url.raw,
+            url,
             updateUrl: this.updateUrl.bind(this, index),
             clearUrl: this.clearUrl.bind(this, index)
           };
@@ -129,7 +119,23 @@ class App extends Component {
         <Messages {...messageProps} />
 
         <div id="parsed">
-          <CompareBox />
+          {diffFields.filter(field => field !== 'query').map((field, index) => {
+            const boxProps = {
+              key: field + index,
+              field,
+              parsedUrls
+            };
+            return <CompareBox {...boxProps} />;
+          })}
+          {queryDiffFields.map((field, index) => {
+            const boxProps = {
+              key: field + index + 'q',
+              isQuery: true,
+              field,
+              parsedUrls
+            };
+            return <CompareBox {...boxProps} />;
+          })}
         </div>
 
         <div className="cboth" />
