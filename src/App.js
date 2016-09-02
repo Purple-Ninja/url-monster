@@ -81,14 +81,6 @@ class App extends Component {
   }
 
   // life cycle methods
-  componentDidUpdate(prevProps, prevState) {
-    const { urls, filter } = this.state;
-
-    if (urls !== prevState.urls) {
-      this.setState(this.compareUrls(urls));
-    }
-  }
-
   componentDidMount() {
     const a = 'https://tw.yahoo.com/asdff?a=a&b=b';
     const b = 'https://tw.yahoo.com/asdff?b=b&a=a';
@@ -108,7 +100,13 @@ class App extends Component {
   }
 
   render() {
-    const { urls, filter, isSame } = this.state;
+    const { urls, filter } = this.state;
+
+    const {
+      isSame,
+      diffFields,
+      queryDiffFields
+    } = this.compareUrls(urls);
 
     const messageProps = {
       isSame,
