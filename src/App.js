@@ -55,7 +55,12 @@ class App extends Component {
       const fields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
       let parsedUrl = _pick(URL.parse(this.state.urls[index], true), fields);
 
-      (isQuery ? parsedUrl.query : parsedUrl)[field] = value;
+      // clean field if value is empty
+      if (value === '') {
+        delete (isQuery ? parsedUrl.query : parsedUrl)[field];
+      } else {
+        (isQuery ? parsedUrl.query : parsedUrl)[field] = value;
+      }
 
       this.updateUrl(index, {
         target: {
