@@ -12,7 +12,8 @@ import url from 'url';
 
 class App extends Component {
   state = {
-    parsedUrls: []
+    parsedUrls: [],
+    filter: 'all' // diff|same|all
   };
 
   // handlers
@@ -28,12 +29,25 @@ class App extends Component {
     });
   }
 
-  clearUrl(index) {
+  clearUrl(index, e) {
+    e.preventDefault()
     this.updateUrl(index, {
       target: {
         value: ''
       }
     });
+  }
+
+  updateFilter(filter, e) {
+    e.preventDefault();
+    this.setState({
+      filter
+    });
+  }
+
+  // helpers
+  compareUrls(parsedUrls) {
+    return true;
   }
 
   // life cycle methods
@@ -47,10 +61,20 @@ class App extends Component {
   }
 
   render() {
+    const { parsedUrls, filter } = this.state;
+    const isSame = this.compareUrls(parsedUrls);
+
+    const messageProps = {
+      isSame,
+      currentFilter: filter,
+      updateFilter: this.updateFilter.bind(this)
+    };
+
     return (
       <div className="App">
         <h1 id="mtitle">URL Monster</h1>
-        {this.state.parsedUrls.map((parsedUrl, index) => {
+
+        {parsedUrls.map((parsedUrl, index) => {
           const urlBoxProps = {
             key: index,
             index,
@@ -59,8 +83,9 @@ class App extends Component {
             clearUrl: this.clearUrl.bind(this, index)
           };
           return <UrlBox {...urlBoxProps} />
-        })}        
-        <Messages />
+        })}
+
+        <Messages {...messageProps} />
 
         <div id="parsed">
           <CompareBox />
