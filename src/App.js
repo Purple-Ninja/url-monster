@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import 'normalize.css';
 import './App.css';
+
+import Footer from './components/Footer';
 
 class App extends Component {
   render() {
@@ -52,13 +55,7 @@ class App extends Component {
         <div id="parsed" />
         <div className="cboth" />
 
-        <div id="footer">
-          URL Monster 1.0 &copy;  <a href="http://gadget.chienwen.net/">Handy Gadgets</a>
-          | 
-          <a href="http://medialize.github.io/URI.js/">URI.js</a> 
-          |
-          <a href="http://jquery.com/">jQuery</a>
-        </div>
+        <Footer />
       </div>
     );
   }
