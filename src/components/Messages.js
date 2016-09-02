@@ -38,7 +38,8 @@ class Messages extends Component {
             {filters.map((filter, index) => {
               const { type, wording } = filter;
               return (
-                <a className={`cab ${type === currentFilter ? 'ckd' : ''}`}
+                <a key={index}
+                  className={`cab ${type === currentFilter ? 'ckd' : ''}`}
                   onClick={updateFilter.bind(this, type)}>{wording}</a>);
             })}
           </div>

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import 'normalize.css';
-import './App.css';
+import url from 'url';
 
 import UrlBox from './components/UrlBox';
 import Messages from './components/Messages';
@@ -13,7 +11,8 @@ import _pick from 'lodash/pick';
 import _reduce from 'lodash/reduce';
 import _union from 'lodash/union';
 
-import url from 'url';
+import 'normalize.css';
+import './App.css';
 
 class App extends Component {
   state = {
@@ -60,8 +59,6 @@ class App extends Component {
 
     const diffFields = this.getDiffFields(...processedUrls, true);
     const queryDiffFields = this.getDiffFields(...processedUrls.map(url => url.query), true);
-
-    console.log(...processedUrls);
 
     return {
       isSame: _isEqual(...processedUrls),
