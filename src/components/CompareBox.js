@@ -4,8 +4,9 @@ class CompareBox extends Component {
   render() {
     const {
       field,
-      isQuery,
-      parsedUrls
+      isQuery = false,
+      parsedUrls,
+      updateField
     } = this.props;
 
     return (
@@ -15,10 +16,16 @@ class CompareBox extends Component {
           {isQuery ? <span className="meta">query</span> : null}
         </span>
         {parsedUrls.map((parsedUrl, index) => {
-          return <input value={(isQuery ? parsedUrls[index].query : parsedUrls[index])[field] || ''}
-            type="text"
-            className={`editable url u${index+1}`}
-            placeholder="UNDEFINED" />
+          const inputProps = {
+            key: index,
+            type: 'text',
+            className: `editable url u${index+1}`,
+            placeholder: "UNDEFINED",
+            value: (isQuery ? parsedUrls[index].query : parsedUrls[index])[field] || '',
+            onChange: updateField(isQuery, index)
+          };
+
+          return <input {...inputProps} />;
         })}
       </div>
     );

@@ -49,6 +49,22 @@ class App extends Component {
     });
   }
 
+  updateField(field, isQuery, index) {
+    return (e) => {
+      const { value } = e.target;
+      const fields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
+      let parsedUrl = _pick(URL.parse(this.state.urls[index], true), fields);
+
+      (isQuery ? parsedUrl.query : parsedUrl)[field] = value;
+
+      this.updateUrl(index, {
+        target: {
+          value: URL.format(parsedUrl)
+        }
+      });
+    };
+  }
+
   // helpers
   compareUrls(urls) {
     const fields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
@@ -123,7 +139,8 @@ class App extends Component {
             const boxProps = {
               key: field + index,
               field,
-              parsedUrls
+              parsedUrls,
+              updateField: this.updateField.bind(this, field)
             };
             return <CompareBox {...boxProps} />;
           })}
@@ -132,7 +149,8 @@ class App extends Component {
               key: field + index + 'q',
               isQuery: true,
               field,
-              parsedUrls
+              parsedUrls,
+              updateField: this.updateField.bind(this, field)
             };
             return <CompareBox {...boxProps} />;
           })}
