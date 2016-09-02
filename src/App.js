@@ -113,11 +113,10 @@ class App extends Component {
 
   // life cycle methods
   componentDidMount() {
-    this.setState({
-      urls: [
-        decodeURIComponent(location.hash.substr(4)),
-        ''
-      ]
+    this.updateUrl(0, {
+      target: {
+        value: decodeURIComponent(location.hash.substr(4))
+      }
     });
   }
 
