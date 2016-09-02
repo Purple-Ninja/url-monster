@@ -1,24 +1,128 @@
-.App {
-  text-align: center;
+#mtitle {
+  font-weight: bold;
+  font-size: 26px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+#footer {
+  margin-top: 20px;
+  padding: 5px 0 5px 0;
+  border-top: thin solid;
+  color: #444444;
+  font-size: 12px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+#footer a {
+  color: #444444;
+  text-decoration: none;
 }
 
-.App-intro {
-  font-size: large;
+.cboth {
+  clear: both;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.wrapper {
+  padding: 10px;
+}
+
+.url {
+  display: block;
+  margin-bottom: 5px;
+  width: 97%;
+  background-color: #f5f6ce;
+}
+
+.u2 {
+  background-color: #aaffdd;
+}
+
+#parsed .compt {
+  float: left;
+  overflow: hidden;
+  margin: 5px;
+  padding: 5px;
+  width: 300px;
+  border: thin solid;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  background-color: #dddddd;
+  text-overflow: ellipsis;
+}
+
+#parsed .compt.diff {
+  background-color: #ff9999;
+}
+
+#parsed .compt .fd {
+  display: block;
+  color: blue;
+}
+
+#parsed .compt .fd .name {
+  font-weight: bold;
+}
+
+#parsed .compt .fd .meta {
+  margin-left: 5px;
+  color: #666666;
+  font-style: italic;
+  font-size: 80%;
+}
+
+.hidden {
+  display: none;
+}
+
+#msgs .msg {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  padding-bottom: 10px;
+  width: 97%;
+  background-color: #99ccff;
+}
+
+#msgs .msg h3 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#msgs .msg .same {
+  color: green;
+}
+
+#msgs .msg .diff {
+  color: red;
+}
+
+#msgs .msg .act {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.cab {
+  padding: 3px;
+  border: 1px solid;
+  cursor: pointer;
+}
+
+.cab.ckd {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.cabs {
+  padding-right: 5px;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.urlui {
+  margin-bottom: 5px;
+}
+
+.urlui > .actions {
+  position: relative;
+  top: -5px;
 }
