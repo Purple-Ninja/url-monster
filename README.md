@@ -9,3 +9,7 @@ Unfortunately, the original source code is loss. Only one compressed version rem
 This product requires the following products:
 * jQuery
 * [URI.js](https://medialize.github.io/URI.js/) with MIT license
+
+# Reactify - 2.0
+- ```npm run bulid```
+- load /build as the extension root
