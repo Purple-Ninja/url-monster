@@ -18,20 +18,34 @@ import './App.css';
 class App extends Component {
   state = {
     urls: ['', ''],
-    filter: 'diff' // diff|same|all
+    filter: 'diff', // diff|same|all
+    computed: {}
   };
 
   // handlers
   updateUrl(index, e) {
     const { urls } = this.state;
+    const newUrls = [
+      ...urls.slice(0, index),
+      e.target.value,
+      ...urls.slice(index + 1)
+    ];
 
-    this.setState({
-      urls: [
-        ...urls.slice(0, index),
-        e.target.value,
-        ...urls.slice(index + 1)
-      ]
-    });
+    let newState = {
+      urls: newUrls,
+      computed: this.compareUrls(newUrls)
+    };
+
+    if (this.paste || newState.computed.isSame) {
+      newState.filter = newState.computed.isSame ? 'all' : 'diff'
+      delete this.paste;
+    }
+
+    this.setState(newState);
+  }
+
+  handleUrlPaste() {
+    this.paste = true;
   }
 
   clearUrl(index, e) {
@@ -108,15 +122,19 @@ class App extends Component {
   }
 
   render() {
-    const { urls, filter } = this.state;
-    const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'hash'];
     const {
-      isSame,
-      diffFields,
-      queryDiffFields,
-      queryAllFields,
-    } = this.compareUrls(urls);
+      urls,
+      filter,
+      computed: {
+        isSame,
+        diffFields = [],
+        queryDiffFields = [],
+        queryAllFields = []
+      }
+    } = this.state;
 
+    const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'hash'];
+    
     const parsedUrls = urls.map(url => URL.parse(url, true));
     const diffing = (urls[1] !== '');
 
@@ -150,7 +168,8 @@ class App extends Component {
             index,
             url,
             updateUrl: this.updateUrl.bind(this, index),
-            clearUrl: this.clearUrl.bind(this, index)
+            clearUrl: this.clearUrl.bind(this, index),
+            handleUrlPaste: this.handleUrlPaste.bind(this)
           };
           return <UrlBox {...urlBoxProps} />
         })}

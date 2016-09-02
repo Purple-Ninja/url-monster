@@ -6,7 +6,8 @@ class UrlBox extends PureComponent {
       clearUrl,
       updateUrl,
       index,
-      url
+      url,
+      handleUrlPaste
     } = this.props;
 
     return (
@@ -16,7 +17,8 @@ class UrlBox extends PureComponent {
             type="text"
             className={`url u${index + 1}`}
             placeholder={`Input URL ${index + 1}`}
-            onChange={updateUrl} />
+            onChange={updateUrl}
+            onPaste={handleUrlPaste} />
         </div>
         <div className="actions" data-uid="1">
           <a className="cabs" href={url}>Go (current)</a>
