@@ -14,14 +14,12 @@ class CompareBox extends Component {
           <span className="name">{field}</span>
           {isQuery ? <span className="meta">query</span> : null}
         </span>
-        <input value={(isQuery ? parsedUrls[0].query : parsedUrls[0])[field] || ''}
-          type="text"
-          className="editable url u1"
-          placeholder="UNDEFINED" />
-        <input value={(isQuery ? parsedUrls[1].query : parsedUrls[1])[field] || ''}
-          type="text"
-          className="editable url u2"
-          placeholder="UNDEFINED" />
+        {parsedUrls.map((parsedUrl, index) => {
+          return <input value={(isQuery ? parsedUrls[index].query : parsedUrls[index])[field] || ''}
+            type="text"
+            className={`editable url u${index+1}`}
+            placeholder="UNDEFINED" />
+        })}
       </div>
     );
   }
