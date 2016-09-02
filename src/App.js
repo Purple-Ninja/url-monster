@@ -99,8 +99,8 @@ class App extends Component {
   componentDidMount() {
     this.setState({
       urls: [
-        'https://tw.yahoo.com/asdff?a=a&b=b',
-        'http://user:pass@host.com:8080/p/a/t/h?query=string'
+        decodeURIComponent(location.hash.substr(4)),
+        ''
       ]
     });
   }
@@ -122,6 +122,8 @@ class App extends Component {
       updateFilter: this.updateFilter.bind(this)
     };
 
+    const diffing = (urls[1] !== '');
+
     return (
       <div className="App">
         <h1 id="mtitle">URL Monster</h1>
@@ -137,7 +139,7 @@ class App extends Component {
           return <UrlBox {...urlBoxProps} />
         })}
 
-        <Messages {...messageProps} />
+        {diffing ? <Messages {...messageProps} /> : null}
 
         <div id="parsed">
           {diffFields.filter(field => field !== 'query').map((field, index) => {
@@ -145,6 +147,7 @@ class App extends Component {
               key: field + index,
               field,
               parsedUrls,
+              diffing,
               updateField: this.updateField.bind(this, field)
             };
             return <CompareBox {...boxProps} />;
@@ -155,6 +158,7 @@ class App extends Component {
               isQuery: true,
               field,
               parsedUrls,
+              diffing,
               updateField: this.updateField.bind(this, field)
             };
             return <CompareBox {...boxProps} />;

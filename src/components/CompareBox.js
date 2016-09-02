@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 
 class CompareBox extends Component {
   render() {
@@ -6,16 +7,24 @@ class CompareBox extends Component {
       field,
       isQuery = false,
       parsedUrls,
+      diffing,
       updateField
     } = this.props;
 
+    const boxClass = classnames('compt', {
+      diff: diffing
+    });
+
     return (
-      <div id="url-query-asdf" className="compt diff">
+      <div className={boxClass}>
         <span className="fd">
           <span className="name">{field}</span>
           {isQuery ? <span className="meta">query</span> : null}
         </span>
         {parsedUrls.map((parsedUrl, index) => {
+          if (!diffing && index === 1) {
+            return null;
+          }
           const inputProps = {
             key: index,
             type: 'text',
