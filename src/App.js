@@ -5,6 +5,7 @@ import './App.css';
 
 import UrlBox from './components/UrlBox';
 import Messages from './components/Messages';
+import CompareBox from './components/CompareBox';
 import Footer from './components/Footer';
 
 
@@ -22,9 +23,12 @@ class App extends Component {
           <Messages />
         </div>
 
-        <div id="parsed" />
-        <div className="cboth" />
+        <div id="parsed">
+          <CompareBox />
+        </div>
 
+        <div className="cboth" />
+        
         <Footer />
       </div>
     );
