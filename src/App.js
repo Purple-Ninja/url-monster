@@ -10,13 +10,14 @@ import _isEqual from 'lodash/isEqual';
 import _pick from 'lodash/pick';
 import _reduce from 'lodash/reduce';
 import _union from 'lodash/union';
+import _difference from 'lodash/difference';
 
 import 'normalize.css';
 import './App.css';
 
 class App extends Component {
   state = {
-    urls: [],
+    urls: ['', ''],
     filter: 'diff' // diff|same|all
   };
 
@@ -81,7 +82,8 @@ class App extends Component {
     return {
       isSame: _isEqual(...processedUrls),
       diffFields,
-      queryDiffFields
+      queryDiffFields,
+      queryAllFields: _union(Object.keys(processedUrls[0].query || {}), Object.keys(processedUrls[1].query || {}))
     };
   }
 
@@ -107,14 +109,16 @@ class App extends Component {
 
   render() {
     const { urls, filter } = this.state;
-
+    const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'hash'];
     const {
       isSame,
       diffFields,
-      queryDiffFields
+      queryDiffFields,
+      queryAllFields,
     } = this.compareUrls(urls);
 
     const parsedUrls = urls.map(url => URL.parse(url, true));
+    const diffing = (urls[1] !== '');
 
     const messageProps = {
       isSame,
@@ -122,7 +126,19 @@ class App extends Component {
       updateFilter: this.updateFilter.bind(this)
     };
 
-    const diffing = (urls[1] !== '');
+    let fields;
+    let queryFields;
+
+    if (filter === 'diff') {
+      fields = diffFields;
+      queryFields = queryDiffFields;
+    } else if (filter === 'same') {
+      fields = _difference(allFields, diffFields);
+      queryFields = _difference(queryAllFields, queryDiffFields);
+    } else {
+      fields = allFields;
+      queryFields = queryAllFields;
+    }
 
     return (
       <div className="App">
@@ -142,7 +158,7 @@ class App extends Component {
         {diffing ? <Messages {...messageProps} /> : null}
 
         <div id="parsed">
-          {diffFields.filter(field => field !== 'query').map((field, index) => {
+          {fields.filter(field => field !== 'query').map((field, index) => {
             const boxProps = {
               key: field + index,
               field,
@@ -152,7 +168,7 @@ class App extends Component {
             };
             return <CompareBox {...boxProps} />;
           })}
-          {queryDiffFields.map((field, index) => {
+          {queryFields.map((field, index) => {
             const boxProps = {
               key: field + index + 'q',
               isQuery: true,
