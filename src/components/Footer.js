@@ -6,9 +6,9 @@ class Footer extends Component {
       <div id="footer">
         URL Monster 1.0 &copy;&nbsp;&nbsp;<a href="http://gadget.chienwen.net/">Handy Gadgets</a>
         &nbsp;|&nbsp;
-        <a href="http://medialize.github.io/URI.js/">URI.js</a> 
+        <a href="https://nodejs.org/api/url.html">Node.js</a> 
         &nbsp;|&nbsp;
-        <a href="http://jquery.com/">jQuery</a>
+        <a href="https://facebook.github.io/react/">React</a>
       </div>
     );
   }
