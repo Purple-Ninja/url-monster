@@ -17,19 +17,22 @@ import url from 'url';
 
 class App extends Component {
   state = {
-    parsedUrls: [],
+    urls: [],
     filter: 'all' // diff|same|all
   };
 
   // handlers
   updateUrl(index, e) {
-    const { parsedUrls } = this.state;
+    const { urls } = this.state;
 
     this.setState({
-      parsedUrls: [
-        ...parsedUrls.slice(0, index),
-        url.parse(e.target.value, true),
-        ...parsedUrls.slice(index + 1)
+      urls: [
+        ...urls.slice(0, index),
+        {
+          raw: e.target.value,
+          parsed: url.parse(e.target.value, true)
+        },
+        ...urls.slice(index + 1)
       ]
     });
   }
@@ -51,12 +54,14 @@ class App extends Component {
   }
 
   // helpers
-  compareUrls(parsedUrls) {
+  compareUrls(urls) {
     const fields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
-    const processedUrls = parsedUrls.map(url => _pick(url, fields));
+    const processedUrls = urls.map(url => _pick(url.parsed, fields));
 
     const diffFields = this.getDiffFields(...processedUrls, true);
     const queryDiffFields = this.getDiffFields(...processedUrls.map(url => url.query), true);
+
+    console.log(...processedUrls);
 
     return {
       isSame: _isEqual(...processedUrls),
@@ -77,24 +82,33 @@ class App extends Component {
 
   // life cycle methods
   componentDidUpdate(prevProps, prevState) {
-    const { parsedUrls, filter } = this.state;
+    const { urls, filter } = this.state;
 
-    if (parsedUrls !== prevState.parsedUrls) {
-      this.setState(this.compareUrls(parsedUrls));
+    if (urls !== prevState.urls) {
+      this.setState(this.compareUrls(urls));
     }
   }
 
   componentDidMount() {
+    const a = 'https://tw.yahoo.com/asdff?a=a&b=b';
+    const b = 'https://tw.yahoo.com/asdff?b=b&a=a';
+
     this.setState({
-      parsedUrls: [
-        url.parse('https://tw.yahoo.com/asdff?a=a&b=b', true),
-        url.parse('https://foo:bar@tw.yahoo.com:300/asdff?b=b&a=a', true)
+      urls: [
+        {
+          raw: a,
+          parsed: url.parse(a, true)
+        },
+        {
+          raw: b,
+          parsed: url.parse(b, true)
+        }
       ]
     });
   }
 
   render() {
-    const { parsedUrls, filter, isSame } = this.state;
+    const { urls, filter, isSame } = this.state;
 
     const messageProps = {
       isSame,
@@ -106,11 +120,11 @@ class App extends Component {
       <div className="App">
         <h1 id="mtitle">URL Monster</h1>
 
-        {parsedUrls.map((parsedUrl, index) => {
+        {urls.map((url, index) => {
           const urlBoxProps = {
             key: index,
             index,
-            parsedUrl,
+            href: url.raw,
             updateUrl: this.updateUrl.bind(this, index),
             clearUrl: this.clearUrl.bind(this, index)
           };

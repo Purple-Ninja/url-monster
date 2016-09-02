@@ -6,9 +6,7 @@ class UrlBox extends PureComponent {
       clearUrl,
       updateUrl,
       index,
-      parsedUrl: {
-        href
-      } = {}
+      href
     } = this.props;
 
     return (
