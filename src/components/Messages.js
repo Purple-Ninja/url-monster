@@ -11,11 +11,11 @@ class Messages extends Component {
     const filters = [
       {
         type: 'diff',
-        wording: 'Show Differences'
+        wording: 'Differences'
       },
       {
         type: 'same',
-        wording: 'Show Similarities'
+        wording: 'Similarities'
       },
       {
         type: 'all',
@@ -36,10 +36,10 @@ class Messages extends Component {
           </div>
           <div className="act">
             {filters.map((filter, index) => {
-              const { type, wording } = filter;
+              const { type, wording, button } = filter;
               return (
                 <a key={index}
-                  className={`cab ${type === currentFilter ? 'ckd' : ''}`}
+                  className={`cab btn btn-small ${type === currentFilter ? 'ckd' : ''}`}
                   onClick={updateFilter.bind(this, type)}>{wording}</a>);
             })}
           </div>
