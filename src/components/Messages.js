@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class Messages extends Component {
+class Messages extends PureComponent {
   render() {
     const {
       isSame,
