@@ -46,6 +46,7 @@ input[type="text"].u2:focus {
   margin: 5px;
   padding: 5px 10px;
   width: 320px;
+  max-width: 100%;
 
   border: 1px solid #ccd3d8;
   -webkit-border-radius: 2px;
