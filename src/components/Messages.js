@@ -36,7 +36,7 @@ class Messages extends PureComponent {
           </div>
           <div className="act">
             {filters.map((filter, index) => {
-              const { type, wording, button } = filter;
+              const { type, wording } = filter;
               return (
                 <a key={index}
                   className={`cab btn btn-small ${type === currentFilter ? 'ckd' : ''}`}
