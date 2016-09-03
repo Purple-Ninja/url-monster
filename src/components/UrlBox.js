@@ -21,9 +21,15 @@ class UrlBox extends PureComponent {
             onPaste={handleUrlPaste} />
         </div>
         <div className="actions" data-uid="1">
-          <a className="cabs" href={url}>Go (current)</a>
-          <a className="cabs" href={url} target="_blank">Go (new)</a>
-          <a className="cabs" onClick={clearUrl}>Clear</a>
+          <div className="btn-wrap">
+            <a className="cabs" href={url}>Go (current)</a>
+          </div>
+          <div className="btn-wrap">
+            <a className="cabs" href={url} target="_blank">Go (new)</a>
+          </div>
+          <div className="btn-wrap">
+            <a className="cabs" href="#" onClick={clearUrl}>Clear</a>
+          </div>
         </div>
       </div>
     );
