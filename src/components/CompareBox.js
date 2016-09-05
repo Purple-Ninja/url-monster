@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 
-class CompareBox extends Component {
+class CompareBox extends PureComponent {
   render() {
     const {
       field,

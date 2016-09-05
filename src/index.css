@@ -5,4 +5,37 @@ html {
 body {
   font-family: "Helvetica Neue", "Lucida Grande", sans-serif;
   font-size: 75%;
+  max-width: 99%;
+  margin: 0 auto;
+}
+
+a {
+  color: #428bca;
+  text-decoration: none;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input[type="text"] {
+  border: 1px solid #e2e7ea;
+  color: #34495e;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.467;
+  padding: 6px 10px;
+  height: 32px;
+  border-radius: 3px;
+  box-shadow: none;
+  -webkit-transition: border 0.1s linear, color 0.1s linear, background-color 0.1s linear;
+  transition: border 0.1s linear, color 0.1s linear, background-color 0.1s linear;
+}
+
+input[type="text"]:focus {
+    border: 1px solid #bdc3c7;
+    outline: 0;
+    box-shadow: none;
 }

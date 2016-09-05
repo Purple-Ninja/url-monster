@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class Messages extends Component {
+class Messages extends PureComponent {
   render() {
     const {
       isSame,
@@ -11,11 +11,11 @@ class Messages extends Component {
     const filters = [
       {
         type: 'diff',
-        wording: 'Show Differences'
+        wording: 'Differences'
       },
       {
         type: 'same',
-        wording: 'Show Similarities'
+        wording: 'Similarities'
       },
       {
         type: 'all',
@@ -39,7 +39,7 @@ class Messages extends Component {
               const { type, wording } = filter;
               return (
                 <a key={index}
-                  className={`cab ${type === currentFilter ? 'ckd' : ''}`}
+                  className={`cab btn btn-small ${type === currentFilter ? 'ckd' : ''}`}
                   onClick={updateFilter.bind(this, type)}>{wording}</a>);
             })}
           </div>
