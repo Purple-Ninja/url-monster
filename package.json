@@ -3,7 +3,10 @@
   "version": "0.0.2",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.3.1"
+    "enzyme": "^2.4.1",
+    "react-addons-test-utils": "^15.3.1",
+    "react-scripts": "0.3.1",
+    "sinon": "^1.17.5"
   },
   "dependencies": {
     "classnames": "^2.2.5",

@@ -1,6 +1,12 @@
 import React, { PureComponent } from 'react';
 
 class Messages extends PureComponent {
+  static defaultProps = {
+    isSame: true,
+    currentFilter: 'diff',
+    updateFilter: () => {}
+  };
+
   render() {
     const {
       isSame,
@@ -21,7 +27,7 @@ class Messages extends PureComponent {
         type: 'all',
         wording: 'Show All'
       }
-    ]
+    ];
 
     return (
       <div id="msgs">

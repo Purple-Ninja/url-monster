@@ -16,11 +16,25 @@ import 'normalize.css';
 import './App.css';
 
 class App extends Component {
-  state = {
+  static defaultProps = {
     urls: ['', ''],
     filter: 'diff', // diff|same|all
     computed: {}
   };
+
+  constructor(props) {
+    super(props);
+    const {
+      urls,
+      filter
+    } = props;
+
+    this.state = {
+      urls,
+      filter,
+      computed: this.compareUrls(urls)
+    };
+  }
 
   // handlers
   updateUrl(index, e) {
