@@ -15,8 +15,6 @@ a {
 }
 
 * {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -30,7 +28,6 @@ input[type="text"] {
   height: 32px;
   border-radius: 3px;
   box-shadow: none;
-  -webkit-transition: border 0.1s linear, color 0.1s linear, background-color 0.1s linear;
   transition: border 0.1s linear, color 0.1s linear, background-color 0.1s linear;
 }
 
