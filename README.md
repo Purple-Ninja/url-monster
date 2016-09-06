@@ -1,3 +1,5 @@
+![](https://img.shields.io/travis/Purple-Ninja/url-monster.svg?style=flat-square)
+
 # url-monster
 A chrome extension to easily observe, edit, or compare URLs
 
