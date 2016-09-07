@@ -173,8 +173,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     updateUrl: (index, url) => {
       dispatch(updateUrl(index, url))
     },
-    updateFilter: (newFilter) => {
-      dispatch(updateFilter(newFilter));
+    updateFilter: (filter) => {
+      dispatch(updateFilter(filter));
     }
   }
 };

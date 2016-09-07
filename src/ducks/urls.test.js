@@ -1,7 +1,7 @@
 import reducer, { UPDATE, updateUrl } from './urls';
 
-describe('duck/urls', () => {
-  describe('#reducer', () => {
+describe('ducks/urls', () => {
+  describe('reducer', () => {
     it('should return the initial state', () => {
       const expectedState = ['', ''];
       expect(reducer(undefined, {})).toEqual(expectedState);

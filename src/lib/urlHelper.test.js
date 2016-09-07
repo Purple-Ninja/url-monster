@@ -1,4 +1,4 @@
-import { compareUrls, getDiffFields } from './UrlHelper';
+import { compareUrls, getDiffFields } from './urlHelper';
 
 describe('urlHelper', () => {
   describe('#compareUrls', () => {

@@ -1,7 +1,7 @@
 import reducer, { UPDATE, updateFilter } from './filter';
 
-describe('duck/filter', () => {
-  describe('#reducer', () => {
+describe('ducks/filter', () => {
+  describe('reducer', () => {
     it('should return the initial state', () => {
       const expectedState = 'diff';
       expect(reducer(undefined, {})).toEqual(expectedState);
