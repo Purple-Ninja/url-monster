@@ -46,7 +46,7 @@ class Messages extends PureComponent {
               return (
                 <a key={index}
                   className={`cab btn btn-small ${type === currentFilter ? 'ckd' : ''}`}
-                  onClick={updateFilter.bind(this, type)}>{wording}</a>);
+                  onClick={() => updateFilter(type)}>{wording}</a>);
             })}
           </div>
         </div>

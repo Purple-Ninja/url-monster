@@ -12,6 +12,9 @@ import _reduce from 'lodash/reduce';
 import _union from 'lodash/union';
 import _difference from 'lodash/difference';
 
+import { connect } from 'react-redux'
+import { updateFilter } from './ducks/filter';
+
 import 'normalize.css';
 import './App.css';
 
@@ -26,12 +29,10 @@ class App extends Component {
     super(props);
     const {
       urls,
-      filter
     } = props;
 
     this.state = {
       urls,
-      filter,
       computed: this.compareUrls(urls)
     };
   }
@@ -51,7 +52,7 @@ class App extends Component {
     };
 
     if (this.paste || newState.computed.isSame) {
-      newState.filter = newState.computed.isSame ? 'all' : 'diff'
+      this.props.updateFilter(newState.computed.isSame ? 'all' : 'diff'); // TODO: move this logic 
       delete this.paste;
     }
 
@@ -68,13 +69,6 @@ class App extends Component {
       target: {
         value: ''
       }
-    });
-  }
-
-  updateFilter(filter, e) {
-    e.preventDefault();
-    this.setState({
-      filter
     });
   }
 
@@ -137,7 +131,6 @@ class App extends Component {
   render() {
     const {
       urls,
-      filter,
       computed: {
         isSame,
         diffFields = [],
@@ -145,6 +138,11 @@ class App extends Component {
         queryAllFields = []
       }
     } = this.state;
+
+    const {
+      filter,
+      updateFilter
+    } = this.props;
 
     const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'hash'];
     
@@ -154,7 +152,7 @@ class App extends Component {
     const messageProps = {
       isSame,
       currentFilter: filter,
-      updateFilter: this.updateFilter.bind(this)
+      updateFilter
     };
 
     let fields;
@@ -220,4 +218,21 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    filter: state.filter
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    updateFilter: (newFilter) => {
+      dispatch(updateFilter(newFilter));
+    }
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
