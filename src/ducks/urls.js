@@ -1,10 +1,10 @@
 // Actions
-const UPDATE_URL = 'url-monster/urls/UPDATE_URL';
+export const UPDATE = 'url-monster/urls/UPDATE';
 
 // Reducer
 export default function reducer(state = ['', ''], action = {}) {
   switch(action.type) {
-    case UPDATE_URL:
+    case UPDATE:
       const { index, url } = action.payload;
       return [
         ...state.slice(0, index),
@@ -19,7 +19,7 @@ export default function reducer(state = ['', ''], action = {}) {
 // Action Creators
 export function updateUrl(index, url) {
   return {
-    type: UPDATE_URL,
+    type: UPDATE,
     payload: {
       index,
       url
