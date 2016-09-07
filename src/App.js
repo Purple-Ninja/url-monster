@@ -12,7 +12,6 @@ import _difference from 'lodash/difference';
 import { connect } from 'react-redux'
 import { updateUrl } from './ducks/urls';
 import { updateFilter } from './ducks/filter';
-
 import { compareUrls } from './lib/urlHelper';
 
 import 'normalize.css';
@@ -25,12 +24,19 @@ class App extends Component {
     computed: {}
   };
 
+  updateUrl(index, url) {
+    this.modifingField = false;
+    this.props.updateUrl(index, url);
+  }
+
   updateField(field, isQuery, index) {
     return (e) => {
       e.preventDefault();
       const { value } = e.target;
       const { updateUrl, computed } = this.props;
       let parsedUrl = computed.parsedUrls[index];
+
+      this.modifingField = true;
       
       // clean field if value is empty
       if (value === '') {
@@ -51,7 +57,11 @@ class App extends Component {
     } = this.props;
 
     if (urls !== nextProps.urls) {
-      updateFilter(nextProps.computed.isSame ? 'all' : 'diff');
+      if (!this.modifingField) {
+        updateFilter(nextProps.computed.isSame ? 'all' : 'diff');
+      } else if (nextProps.computed.isSame) {
+        updateFilter('all');
+      }
     }
   }
 
@@ -70,7 +80,6 @@ class App extends Component {
         fields,
         queryFields
       },
-      updateUrl,
       updateFilter,
     } = this.props;
     
@@ -89,7 +98,7 @@ class App extends Component {
             key: index,
             index,
             url,
-            updateUrl
+            updateUrl: this.updateUrl.bind(this)
           };
           return <UrlBox {...urlBoxProps} />
         })}
