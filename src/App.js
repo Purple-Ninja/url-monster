@@ -18,7 +18,7 @@ import './App.css';
 class App extends Component {
   static defaultProps = {
     urls: ['', ''],
-    filter: 'diff', // diff|same|all
+    filter: '',
     computed: {}
   };
 
