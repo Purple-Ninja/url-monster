@@ -6,14 +6,13 @@ import Messages from './components/Messages';
 import CompareBox from './components/CompareBox';
 import Footer from './components/Footer';
 
-import _isEqual from 'lodash/isEqual';
 import _pick from 'lodash/pick';
-import _reduce from 'lodash/reduce';
-import _union from 'lodash/union';
 import _difference from 'lodash/difference';
 
 import { connect } from 'react-redux'
 import { updateFilter } from './ducks/filter';
+
+import { compareUrls } from './lib/urlHelper';
 
 import 'normalize.css';
 import './App.css';
@@ -33,7 +32,7 @@ class App extends Component {
 
     this.state = {
       urls,
-      computed: this.compareUrls(urls)
+      computed: compareUrls(urls)
     };
   }
 
@@ -48,7 +47,7 @@ class App extends Component {
 
     let newState = {
       urls: newUrls,
-      computed: this.compareUrls(newUrls)
+      computed: compareUrls(newUrls)
     };
 
     if (this.paste || newState.computed.isSame) {
@@ -91,32 +90,6 @@ class App extends Component {
         }
       });
     };
-  }
-
-  // helpers
-  compareUrls(urls) {
-    const fields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
-    const processedUrls = urls.map(url => _pick(URL.parse(url, true), fields));
-
-    const diffFields = this.getDiffFields(...processedUrls, true);
-    const queryDiffFields = this.getDiffFields(...processedUrls.map(url => url.query), true);
-
-    return {
-      isSame: _isEqual(...processedUrls),
-      diffFields,
-      queryDiffFields,
-      queryAllFields: _union(Object.keys(processedUrls[0].query || {}), Object.keys(processedUrls[1].query || {}))
-    };
-  }
-
-  getDiffFields(a, b, twoSides) {
-    if (!!twoSides) {
-      return _union(this.getDiffFields(a, b), this.getDiffFields(b, a));
-    }
-
-    return _reduce(a, (result, value, key) => {
-      return _isEqual(value, b[key]) ? result : result.concat(key);
-    }, []);
   }
 
   // life cycle methods
