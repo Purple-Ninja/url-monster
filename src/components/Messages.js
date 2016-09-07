@@ -7,11 +7,15 @@ class Messages extends PureComponent {
     updateFilter: () => {}
   };
 
+  updateFilter(filter, e) {
+    e.preventDefault();
+    this.props.updateFilter(filter);
+  }
+
   render() {
     const {
       isSame,
-      currentFilter,
-      updateFilter
+      currentFilter
     } = this.props;
 
     const filters = [
@@ -46,7 +50,7 @@ class Messages extends PureComponent {
               return (
                 <a key={index}
                   className={`cab btn btn-small ${type === currentFilter ? 'ckd' : ''}`}
-                  onClick={() => updateFilter(type)}>{wording}</a>);
+                  onClick={this.updateFilter.bind(this, type)}>{wording}</a>);
             })}
           </div>
         </div>

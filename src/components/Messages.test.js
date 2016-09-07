@@ -31,7 +31,9 @@ describe('<Messages />', () => {
     const updateFilter = sinon.spy();
     const app = shallow(<Messages updateFilter={updateFilter} />);
     
-    app.find('.cab').first().simulate('click');
+    app.find('.cab').first().simulate('click', {
+      preventDefault: () => {}
+    });
     expect(updateFilter.calledOnce).toBe(true);
   });
 });

@@ -6,16 +6,9 @@ import * as reducers from './ducks/index';
 import App from './App';
 import './index.css';
 
-const initialState = {
-  urls: ['https://tw.yahoo.com', ''],
-  filter: 'diff'
-};
-
 const rootReducer = combineReducers(reducers);
 
-let store = createStore(rootReducer,
-  initialState,
-  window.devToolsExtension && window.devToolsExtension());
+let store = createStore(rootReducer, window.devToolsExtension && window.devToolsExtension());
 
 ReactDOM.render(
   <Provider store={store}>
