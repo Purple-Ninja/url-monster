@@ -1,5 +1,5 @@
 // Actions
-const UPDATE = 'url-monster/filter/UPDATE';
+export const UPDATE = 'url-monster/filter/UPDATE';
 
 // Reducer
 export default function reducer(state = 'diff', action = {}) {
