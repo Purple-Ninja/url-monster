@@ -17,7 +17,7 @@ import { compareUrls } from './lib/urlHelper';
 import 'normalize.css';
 import './App.css';
 
-class App extends Component {
+export class App extends Component {
   static defaultProps = {
     urls: ['', ''],
     filter: '',
@@ -77,8 +77,8 @@ class App extends Component {
         isSame,
         parsedUrls,
         diffing,
-        fields,
-        queryFields
+        fields = [],
+        queryFields = []
       },
       updateFilter,
     } = this.props;
@@ -136,7 +136,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
   const { urls, filter } = state;
   const compareResult = compareUrls(urls);
   const { diffFields, queryDiffFields, queryAllFields } = compareResult;
@@ -179,7 +179,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
