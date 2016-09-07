@@ -65,38 +65,23 @@ class App extends Component {
       filter,
       computed: {
         isSame,
-        diffFields = [],
-        queryDiffFields = [],
-        queryAllFields = []
+        diffFields,
+        queryDiffFields,
+        queryAllFields,
+        parsedUrls,
+        diffing,
+        fields,
+        queryFields
       },
       updateUrl,
       updateFilter,
     } = this.props;
-
-    const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'hash'];
     
-    const parsedUrls = urls.map(url => URL.parse(url, true));
-    const diffing = (urls[1] !== '');
-
     const messageProps = {
       isSame,
       currentFilter: filter,
       updateFilter
     };
-
-    let fields;
-    let queryFields;
-
-    if (filter === 'diff') {
-      fields = diffFields;
-      queryFields = queryDiffFields;
-    } else if (filter === 'same') {
-      fields = _difference(allFields, diffFields);
-      queryFields = _difference(queryAllFields, queryDiffFields);
-    } else {
-      fields = allFields;
-      queryFields = queryAllFields;
-    }
 
     return (
       <div className="App">
@@ -117,7 +102,7 @@ class App extends Component {
         <div id="parsed">
           {fields.filter(field => field !== 'query').map((field, index) => {
             const boxProps = {
-              key: field + index,
+              key: field,
               field,
               parsedUrls,
               diffing,
@@ -127,7 +112,7 @@ class App extends Component {
           })}
           {queryFields.map((field, index) => {
             const boxProps = {
-              key: field + index + 'q',
+              key: `query.${field}`,
               isQuery: true,
               field,
               parsedUrls,
@@ -146,10 +131,34 @@ class App extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const { urls, filter } = state;
+  const compareResult = compareUrls(urls);
+  const { diffFields, queryDiffFields, queryAllFields } = compareResult;
+  const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'hash'];
+  let fields;
+  let queryFields;
+
+  if (filter === 'diff') {
+    fields = diffFields;
+    queryFields = queryDiffFields;
+  } else if (filter === 'same') {
+    fields = _difference(allFields, diffFields);
+    queryFields = _difference(queryAllFields, queryDiffFields);
+  } else {
+    fields = allFields;
+    queryFields = queryAllFields;
+  }
+
   return {
-    urls: state.urls,
-    filter: state.filter,
-    computed: compareUrls(state.urls)
+    urls,
+    filter,
+    computed: {
+      ...compareResult,
+      parsedUrls: urls.map(url => URL.parse(url, true)),
+      diffing: (urls[1] !== ''),
+      fields,
+      queryFields
+    }
   };
 };
 
