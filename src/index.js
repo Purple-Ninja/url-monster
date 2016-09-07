@@ -7,6 +7,7 @@ import App from './App';
 import './index.css';
 
 const initialState = {
+  urls: ['https://tw.yahoo.com', ''],
   filter: 'diff'
 };
 

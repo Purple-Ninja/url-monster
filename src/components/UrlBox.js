@@ -17,7 +17,7 @@ class UrlBox extends PureComponent {
             type="text"
             className={`url u${index + 1}`}
             placeholder={`Input URL ${index + 1}`}
-            onChange={updateUrl}
+            onChange={e => updateUrl(index, e.target.value)}
             onPaste={handleUrlPaste} />
         </div>
         <div className="actions" data-uid="1">

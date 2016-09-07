@@ -10,6 +10,7 @@ import _pick from 'lodash/pick';
 import _difference from 'lodash/difference';
 
 import { connect } from 'react-redux'
+import { updateUrl } from './ducks/urls';
 import { updateFilter } from './ducks/filter';
 
 import { compareUrls } from './lib/urlHelper';
@@ -24,20 +25,8 @@ class App extends Component {
     computed: {}
   };
 
-  constructor(props) {
-    super(props);
-    const {
-      urls,
-    } = props;
-
-    this.state = {
-      urls,
-      computed: compareUrls(urls)
-    };
-  }
-
   // handlers
-  updateUrl(index, e) {
+  xupdateUrl(index, e) {
     const { urls } = this.state;
     const newUrls = [
       ...urls.slice(0, index),
@@ -50,8 +39,9 @@ class App extends Component {
       computed: compareUrls(newUrls)
     };
 
+    // TODO: move this logic
     if (this.paste || newState.computed.isSame) {
-      this.props.updateFilter(newState.computed.isSame ? 'all' : 'diff'); // TODO: move this logic 
+      this.props.updateFilter(newState.computed.isSame ? 'all' : 'diff');
       delete this.paste;
     }
 
@@ -64,18 +54,15 @@ class App extends Component {
 
   clearUrl(index, e) {
     e.preventDefault()
-    this.updateUrl(index, {
-      target: {
-        value: ''
-      }
-    });
+    this.props.updateUrl(index, '');
   }
 
   updateField(field, isQuery, index) {
     return (e) => {
+      const { urls, updateUrl } = this.props;
       const { value } = e.target;
       const fields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
-      let parsedUrl = _pick(URL.parse(this.state.urls[index], true), fields);
+      let parsedUrl = _pick(URL.parse(urls[index], true), fields);
 
       // clean field if value is empty
       if (value === '') {
@@ -84,37 +71,27 @@ class App extends Component {
         (isQuery ? parsedUrl.query : parsedUrl)[field] = value;
       }
 
-      this.updateUrl(index, {
-        target: {
-          value: URL.format(parsedUrl)
-        }
-      });
+      updateUrl(index, URL.format(parsedUrl));
     };
   }
 
   // life cycle methods
   componentDidMount() {
-    this.updateUrl(0, {
-      target: {
-        value: decodeURIComponent(location.hash.substr(4))
-      }
-    });
+    this.props.updateUrl(0, decodeURIComponent(location.hash.substr(4)));
   }
 
   render() {
     const {
       urls,
+      filter,
       computed: {
         isSame,
         diffFields = [],
         queryDiffFields = [],
         queryAllFields = []
-      }
-    } = this.state;
-
-    const {
-      filter,
-      updateFilter
+      },
+      updateUrl,
+      updateFilter,
     } = this.props;
 
     const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'hash'];
@@ -151,7 +128,7 @@ class App extends Component {
             key: index,
             index,
             url,
-            updateUrl: this.updateUrl.bind(this, index),
+            updateUrl,
             clearUrl: this.clearUrl.bind(this, index),
             handleUrlPaste: this.handleUrlPaste.bind(this)
           };
@@ -193,12 +170,17 @@ class App extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    filter: state.filter
+    urls: state.urls,
+    filter: state.filter,
+    computed: compareUrls(state.urls)
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    updateUrl: (index, url) => {
+      dispatch(updateUrl(index, url))
+    },
     updateFilter: (newFilter) => {
       dispatch(updateFilter(newFilter));
     }
