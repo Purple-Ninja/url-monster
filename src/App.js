@@ -25,38 +25,6 @@ class App extends Component {
     computed: {}
   };
 
-  // handlers
-  xupdateUrl(index, e) {
-    const { urls } = this.state;
-    const newUrls = [
-      ...urls.slice(0, index),
-      e.target.value,
-      ...urls.slice(index + 1)
-    ];
-
-    let newState = {
-      urls: newUrls,
-      computed: compareUrls(newUrls)
-    };
-
-    // TODO: move this logic
-    if (this.paste || newState.computed.isSame) {
-      this.props.updateFilter(newState.computed.isSame ? 'all' : 'diff');
-      delete this.paste;
-    }
-
-    this.setState(newState);
-  }
-
-  handleUrlPaste() {
-    this.paste = true;
-  }
-
-  clearUrl(index, e) {
-    e.preventDefault()
-    this.props.updateUrl(index, '');
-  }
-
   updateField(field, isQuery, index) {
     return (e) => {
       const { urls, updateUrl } = this.props;
@@ -76,6 +44,17 @@ class App extends Component {
   }
 
   // life cycle methods
+  componentWillReceiveProps(nextProps) {
+    const {
+      urls,
+      updateFilter
+    } = this.props;
+
+    if (urls !== nextProps.urls) {
+      updateFilter(nextProps.computed.isSame ? 'all' : 'diff');
+    }
+  }
+
   componentDidMount() {
     this.props.updateUrl(0, decodeURIComponent(location.hash.substr(4)));
   }
@@ -128,9 +107,7 @@ class App extends Component {
             key: index,
             index,
             url,
-            updateUrl,
-            clearUrl: this.clearUrl.bind(this, index),
-            handleUrlPaste: this.handleUrlPaste.bind(this)
+            updateUrl
           };
           return <UrlBox {...urlBoxProps} />
         })}

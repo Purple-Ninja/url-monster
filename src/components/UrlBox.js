@@ -1,13 +1,22 @@
 import React, { PureComponent } from 'react';
 
 class UrlBox extends PureComponent {
+
+  // handlers
+  updateUrl(index, e) {
+    e.preventDefault();
+    this.props.updateUrl(index, e.target.value);
+  }
+
+  clearUrl(index, e) {
+    e.preventDefault();
+    this.props.updateUrl(index, '');
+  }
+
   render() {
     const {
-      clearUrl,
-      updateUrl,
       index,
-      url,
-      handleUrlPaste
+      url
     } = this.props;
 
     return (
@@ -17,8 +26,7 @@ class UrlBox extends PureComponent {
             type="text"
             className={`url u${index + 1}`}
             placeholder={`Input URL ${index + 1}`}
-            onChange={e => updateUrl(index, e.target.value)}
-            onPaste={handleUrlPaste} />
+            onChange={this.updateUrl.bind(this, index)} />
         </div>
         <div className="actions" data-uid="1">
           <div className="btn-wrap">
@@ -28,7 +36,7 @@ class UrlBox extends PureComponent {
             <a className="cabs" href={url} target="_blank">Go (new)</a>
           </div>
           <div className="btn-wrap">
-            <a className="cabs" href="#" onClick={clearUrl}>Clear</a>
+            <a className="cabs" href="#" onClick={this.clearUrl.bind(this, index)}>Clear</a>
           </div>
         </div>
       </div>
