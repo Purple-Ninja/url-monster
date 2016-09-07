@@ -27,11 +27,11 @@ class App extends Component {
 
   updateField(field, isQuery, index) {
     return (e) => {
-      const { urls, updateUrl } = this.props;
+      e.preventDefault();
       const { value } = e.target;
-      const fields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
-      let parsedUrl = _pick(URL.parse(urls[index], true), fields);
-
+      const { updateUrl, computed } = this.props;
+      let parsedUrl = computed.parsedUrls[index];
+      
       // clean field if value is empty
       if (value === '') {
         delete (isQuery ? parsedUrl.query : parsedUrl)[field];
@@ -65,9 +65,6 @@ class App extends Component {
       filter,
       computed: {
         isSame,
-        diffFields,
-        queryDiffFields,
-        queryAllFields,
         parsedUrls,
         diffing,
         fields,
@@ -134,7 +131,7 @@ const mapStateToProps = (state, ownProps) => {
   const { urls, filter } = state;
   const compareResult = compareUrls(urls);
   const { diffFields, queryDiffFields, queryAllFields } = compareResult;
-  const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'hash'];
+  const allFields = ['protocol', 'auth', 'hostname', 'port', 'pathname', 'query', 'hash'];
   let fields;
   let queryFields;
 
@@ -154,7 +151,7 @@ const mapStateToProps = (state, ownProps) => {
     filter,
     computed: {
       ...compareResult,
-      parsedUrls: urls.map(url => URL.parse(url, true)),
+      parsedUrls: urls.map(url => _pick(URL.parse(url, true), allFields)),
       diffing: (urls[1] !== ''),
       fields,
       queryFields
