@@ -2,6 +2,14 @@ import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 
 class CompareBox extends PureComponent {
+
+  openUrl(index, e) {
+    if (e.keyCode === 13 && e.metaKey) {
+      // mac: command + enter
+      this.props.openUrl(index);
+    }
+  }
+
   render() {
     const {
       field,
@@ -39,7 +47,8 @@ class CompareBox extends PureComponent {
             className: `editable url u${index+1}`,
             placeholder: "UNDEFINED",
             value: (isQuery ? parsedUrls[index].query : parsedUrls[index])[field] || '',
-            onChange: updateField(isQuery, index)
+            onChange: updateField(isQuery, index),
+            onKeyDown: this.openUrl.bind(this, index)
           };
 
           return <input {...inputProps} />;
