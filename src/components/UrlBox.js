@@ -13,6 +13,13 @@ class UrlBox extends PureComponent {
     this.props.updateUrl(index, '');
   }
 
+  openUrl(e) {
+    if (e.keyCode === 13 && e.metaKey) {
+      // mac: command + enter
+      this.props.openUrl(this.props.index);
+    }
+  }
+
   render() {
     const {
       index,
@@ -26,7 +33,8 @@ class UrlBox extends PureComponent {
             type="text"
             className={`url u${index + 1}`}
             placeholder={`Input URL ${index + 1}`}
-            onChange={this.updateUrl.bind(this, index)} />
+            onChange={this.updateUrl.bind(this, index)}
+            onKeyDown={this.openUrl.bind(this)} />
         </div>
         <div className="actions" data-uid="1">
           <div className="btn-wrap">

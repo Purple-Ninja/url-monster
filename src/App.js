@@ -1,3 +1,5 @@
+/* global chrome */
+
 import React, { Component } from 'react';
 import URL from 'url';
 
@@ -27,6 +29,23 @@ export class App extends Component {
   updateUrl(index, url) {
     this.modifingField = false;
     this.props.updateUrl(index, url);
+  }
+
+  openUrl(index) {
+    const url = this.props.urls[index];
+
+    if (!url) {
+      return;
+    }
+
+    if (chrome && chrome.tabs) {
+      chrome.tabs.create({
+        url,
+        active: true
+      });
+    } else {
+      window.open(url);
+    }
   }
 
   updateField(field, isQuery, index) {
@@ -98,7 +117,8 @@ export class App extends Component {
             key: index,
             index,
             url,
-            updateUrl: this.updateUrl.bind(this)
+            updateUrl: this.updateUrl.bind(this),
+            openUrl: this.openUrl.bind(this)
           };
           return <UrlBox {...urlBoxProps} />
         })}
@@ -112,7 +132,8 @@ export class App extends Component {
               field,
               parsedUrls,
               diffing,
-              updateField: this.updateField.bind(this, field)
+              updateField: this.updateField.bind(this, field),
+              openUrl: this.openUrl.bind(this)
             };
             return <CompareBox {...boxProps} />;
           })}
@@ -123,7 +144,8 @@ export class App extends Component {
               field,
               parsedUrls,
               diffing,
-              updateField: this.updateField.bind(this, field)
+              updateField: this.updateField.bind(this, field),
+              openUrl: this.openUrl.bind(this)
             };
             return <CompareBox {...boxProps} />;
           })}
